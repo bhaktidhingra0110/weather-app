@@ -1,0 +1,145 @@
+/* ================= GLOBAL RESET ================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background: #222;
+  min-height: 100vh;
+}
+
+/* ================= CARD ================= */
+.card {
+  width: 90%;
+  max-width: 600px;
+  background: linear-gradient(135deg, #00feba, #5b548a);
+  color: #fff;
+  margin: 80px auto;
+  border-radius: 20px;
+  padding: 40px 35px;
+  text-align: center;
+}
+
+/* ================= SEARCH ================= */
+.search {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.search input {
+  flex: 1;
+  height: 55px;
+  padding: 0 22px;
+  border: none;
+  outline: none;
+  border-radius: 30px;
+  font-size: 16px;
+  background: #ebfffc;
+  color: #333;
+}
+
+.search button {
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  border: none;
+  background: #ebfffc;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.search button:hover {
+  transform: scale(1.05);
+  background: #dff9f6;
+}
+
+.search button img {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+}
+
+/* ================= WEATHER ================= */
+.weather {
+  margin-top: 30px;
+}
+
+.weather-icon {
+  width: 160px;
+  margin: 20px auto;
+}
+
+.weather h1 {
+  font-size: 48px;
+  font-weight: 500;
+}
+
+.weather h2 {
+  font-size: 32px;
+  font-weight: 400;
+  margin-top: 5px;
+}
+
+.description {
+  text-transform: capitalize;
+  font-size: 16px;
+  margin-top: 5px;
+  opacity: 0.9;
+}
+
+.feels-like {
+  font-size: 14px;
+  margin-top: 4px;
+  opacity: 0.8;
+}
+
+/* ================= DETAILS ================= */
+.details {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 40px;
+  padding: 0 10px;
+}
+
+.col {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.col img {
+  width: 36px;
+}
+
+.humidity,
+.wind {
+  font-size: 26px;
+  font-weight: 500;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 480px) {
+  .card {
+    padding: 30px 20px;
+  }
+
+  .weather h1 {
+    font-size: 40px;
+  }
+
+  .weather h2 {
+    font-size: 26px;
+  }
+
+  .details {
+    flex-direction: column;
+    gap: 20px;
+  }
+}

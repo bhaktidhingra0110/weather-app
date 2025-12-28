@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Weather App</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="card">
+    <div class="search">
+      <input type="text" placeholder="Enter city name" />
+      <button><img src="images/search-icon-png-9965.png" alt="Search" /></button>
+    </div>
+
+    <div class="weather">
+      <img src="images/clear.png" class="weather-icon" alt="Weather icon" />
+      <h1 class="temp">--°C</h1>
+      <h2 class="city">City</h2>
+      <p class="description"></p>
+      <p class="feels-like"></p>
+
+      <div class="details">
+        <div class="col">
+          <img src="images/humidity.png" alt="Humidity icon" />
+          <div>
+            <p class="humidity">--%</p>
+            <p>Humidity</p>
+          </div>
+        </div>
+        <div class="col">
+          <img src="images/pngegg.png" alt="Wind icon" />
+          <div>
+            <p class="wind">-- km/h</p>
+            <p>Wind Speed</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+const searchInput = document.querySelector(".search input");
+const searchButton = document.querySelector(".search button");
+const weatherIcon = document.querySelector(".weather-icon");
+
+const cityEl = document.querySelector(".city");
+const tempEl = document.querySelector(".temp");
+const humidityEl = document.querySelector(".humidity");
+const windEl = document.querySelector(".wind");
+const descEl = document.querySelector(".description");
+const feelsLikeEl = document.querySelector(".feels-like");
+
+// Fetch weather from backend
+async function fetchWeather(city) {
+  showLoading();
+  try {
+    const response = await fetch(`http://localhost:3000/weather?city=${encodeURIComponent(city)}`);
+    const data = await response.json();
+
+    if (data.cod !== 200) throw new Error(data.message || "City not found");
+    updateUI(data);
+  } catch (error) {
+    alert(error.message);
+    resetUI();
+  }
+}
+
+function updateUI(data) {
+  const windKmH = (data.wind.speed * 3.6).toFixed(1);
+  cityEl.textContent = `${data.name}, ${data.sys.country}`;
+  tempEl.textContent = `${Math.round(data.main.temp)}°C`;
+  humidityEl.textContent = `${data.main.humidity}%`;
+  windEl.textContent = `${windKmH} km/h`;
+  descEl.textContent = data.weather[0].description;
+  feelsLikeEl.textContent = `Feels like ${Math.round(data.main.feels_like)}°C`;
+  setWeatherIcon(data.weather[0].main);
+}
+
+function setWeatherIcon(condition) {
+  const icons = {
+    Clear: "images/clear.png",
+    Clouds: "images/clouds.JPG",
+    Rain: "images/rain.png",
+    Drizzle: "images/drizzle.jpeg",
+    Mist: "images/mist.png",
+    Snow: "images/snow.JPG"
+  };
+  weatherIcon.src = icons[condition] || "images/clear.png";
+}
+
+function showLoading() {
+  tempEl.textContent = "Loading...";
+  cityEl.textContent = "";
+  descEl.textContent = "";
+  feelsLikeEl.textContent = "";
+}
+
+function resetUI() {
+  tempEl.textContent = "--°C";
+  cityEl.textContent = "City";
+  humidityEl.textContent = "--%";
+  windEl.textContent = "-- km/h";
+}
+
+searchButton.addEventListener("click", () => {
+  const city = searchInput.value.trim();
+  if (city) fetchWeather(city);
+});
+
+searchInput.addEventListener("keypress", (e) => {
+  if (e.key === "Enter") searchButton.click();
+});
+
+// Default city load
+fetchWeather("New York");
+</script>
+</body>
+</html>
